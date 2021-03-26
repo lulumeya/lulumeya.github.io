@@ -16,17 +16,11 @@
 
 <!DOCTYPE html>
 <html>
-
-<head>
-    <script>
-        fun openDeepLink() {
-            window.alert('메롱')
-        }
-    </script>
-</head>
-
 <body>
-<a href="" onclick="openDeepLink();">딥링크테스트 hbeauty:///pagegroup/511</a>
+    <input type="text" id="linkInput" width="600px" placeholder="딥링크 입력"/>
+    <br>
+    <br>
+    <button onclick="javascript:window.open(document.getElementById('linkInput').value)">딥링크테스트</button>
 <br>
 <br>
 <a download="download" href="radio_kr/app.json">app.json</a>

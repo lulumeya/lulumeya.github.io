@@ -17,7 +17,7 @@ kbsr () {
 #if [ "$1" = 24 ]; then
 # pls $(curl -s http://serpent0.duckdns.org:8088/kbsfm.pls | head -2 | tail -1 | cut -d\= -f2-)
 #else
-  url=$(curl -s "http://onair.kbs.co.kr/index.html?sname=onair&stype=live&ch_code=$1" | grep service_url | tail -1 | cut -d\" -f16 | cut -d\\ -f1)
+  url=$(curl -s "https://onair.kbs.co.kr/index.html?sname=onair&stype=live&ch_code=$1" | grep service_url | tail -1 | cut -d\" -f16 | cut -d\\ -f1)
 #fi
 }
 

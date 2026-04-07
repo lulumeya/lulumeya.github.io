@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embedded Photo Picker 도입 제안</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root {
+    --primary: #4F46E5; --success: #10B981; --danger: #EF4444;
+    --warning: #F59E0B; --gray-50: #F9FAFB; --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB; --gray-400: #9CA3AF; --gray-600: #4B5563;
+    --gray-800: #1F2937; --gray-900: #111827;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', sans-serif;
+    background: var(--gray-50); color: var(--gray-800); line-height: 1.6;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  header { text-align: center; margin-bottom: 48px; }
+  header h1 { font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+  header .subtitle { font-size: 15px; color: var(--gray-600); }
+  .badge {
+    display: inline-block; background: var(--primary); color: white;
+    font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .card {
+    background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--gray-900); }
+  .card .card-desc { font-size: 13px; color: var(--gray-400); margin-bottom: 20px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi {
+    background: var(--gray-50); border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .kpi .value { font-size: 32px; font-weight: 800; }
+  .kpi .label { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
+  .chart-container { position: relative; width: 100%; height: 320px; margin: 16px 0; }
+  .chart-container-sm { position: relative; width: 100%; max-width: 300px; height: 260px; margin: 16px auto; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--gray-200); }
+  th { font-weight: 600; color: var(--gray-600); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.supported td { color: var(--success); font-weight: 600; }
+  .insight-box {
+    background: #EEF2FF; border-left: 4px solid var(--primary);
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px;
+  }
+  .insight-box strong { color: var(--primary); }
+  .benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .benefit {
+    background: var(--gray-50); border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .benefit .icon { font-size: 32px; margin-bottom: 8px; }
+  .benefit .title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+  .benefit .desc { font-size: 12px; color: var(--gray-600); }
+  .comparison {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin: 20px 0;
+  }
+  .comparison .box {
+    background: var(--gray-50); border-radius: 12px; padding: 16px; text-align: center;
+  }
+  .comparison .box.old { border: 2px solid var(--gray-200); }
+  .comparison .box.new { border: 2px solid var(--success); }
+  .comparison .box .label { font-size: 12px; color: var(--gray-600); margin-bottom: 4px; }
+  .comparison .box .title { font-size: 15px; font-weight: 700; }
+  .comparison .arrow { font-size: 24px; color: var(--primary); }
+  .conclusion {
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    color: white; border-radius: 16px; padding: 32px; margin-top: 24px;
+  }
+  .conclusion h2 { color: white; margin-bottom: 16px; }
+  .conclusion ul { padding-left: 20px; }
+  .conclusion li { margin-bottom: 8px; font-size: 15px; }
+  .source {
+    text-align: center; font-size: 12px; color: var(--gray-600);
+    margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--gray-200);
+  }
+  .source a { color: var(--primary); text-decoration: none; }
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--primary); margin-bottom: 8px;
+  }
+  @media (max-width: 640px) {
+    .kpi-row, .benefit-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="badge">PROPOSAL</div>
+  <h1>Embedded Photo Picker 도입 제안</h1>
+  <p class="subtitle">더 나은 사진 선택 경험을 위해</p>
+</header>
+
+<!-- ============================================ -->
+<!-- SECTION 1: WHY - UX Value -->
+<!-- ============================================ -->
+<div class="section-label">What &amp; Why</div>
+
+<div class="card">
+  <h2>앱을 떠나지 않는 사진 선택 경험</h2>
+  <p class="card-desc">Embedded Photo Picker는 Google이 제공하는 차세대 사진 선택 API입니다</p>
+
+  <div class="comparison">
+    <div class="box old">
+      <div class="label">현재</div>
+      <div class="title" style="color:var(--gray-600);">기존 Photo Picker</div>
+      <p style="font-size:13px; color:var(--gray-400); margin-top:8px;">전체 화면 전환 필요<br>앱 흐름 중단<br>사용자 이탈 가능성</p>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="box new">
+      <div class="label">제안</div>
+      <div class="title" style="color:var(--success);">Embedded Photo Picker</div>
+      <p style="font-size:13px; color:#065F46; margin-top:8px;">앱 내 인라인 선택<br>흐름 유지<br>자연스러운 UX</p>
+    </div>
+  </div>
+
+  <div class="benefit-grid">
+    <div class="benefit">
+      <div class="icon">&#x1F3AF;</div>
+      <div class="title">인라인 UX</div>
+      <div class="desc">화면 전환 없이 앱 안에서 바로 사진 탐색/선택</div>
+    </div>
+    <div class="benefit">
+      <div class="icon">&#x1F512;</div>
+      <div class="title">프라이버시</div>
+      <div class="desc">샌드박스 환경에서 선택한 사진만 앱에 전달</div>
+    </div>
+    <div class="benefit">
+      <div class="icon">&#x2699;&#xFE0F;</div>
+      <div class="title">Google 공식 API</div>
+      <div class="desc">장기적 유지보수 비용 절감, 지속적 개선 보장</div>
+    </div>
+  </div>
+</div>
+
+<!-- Demo Video -->
+<div class="card">
+  <h2>시연 영상</h2>
+  <p class="card-desc">Embedded Photo Picker 동작 데모</p>
+  <div style="display:flex; justify-content:center; margin:16px 0;">
+    <video src="demp.webm" controls autoplay muted loop playsinline
+      style="max-width:100%; max-height:560px; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.12);">
+    </video>
+  </div>
+</div>
+
+<!-- Real-world Usage -->
+<div class="section-label" style="margin-top:32px;">Real-world Usage</div>
+
+<div class="card">
+  <h2>이미 메이저 앱에서 사용 중입니다</h2>
+  <p class="card-desc">Google Messages가 Embedded Photo Picker를 정식 도입했습니다 (2026.01)</p>
+
+  <!-- Google Messages -->
+  <div style="margin-bottom:32px;">
+    <h3 style="font-size:16px; font-weight:700; margin-bottom:4px;">
+      <span style="background:#1A73E8; color:white; padding:2px 8px; border-radius:6px; font-size:12px; margin-right:8px;">Google</span>
+      Google Messages
+    </h3>
+    <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px;">
+      카메라 버튼 아래에 Photo Picker가 인라인으로 배치되어, 사진 촬영과 갤러리 선택을 한 화면에서 처리합니다.
+      스크롤하면 전체 화면으로 확장되며 Google Photos 클라우드 콘텐츠도 탐색 가능합니다.
+    </p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYB1a2iMLle1b_po25Yz2BrOVmJbQsAIqSL9fDYtDYSwg7j3yWet_PK-eR8w9L4cPUW3WaIrmQKw9SzIme2zNRtgE2JtHZVySj63AHT4aYyTHvcCFX4z0SXaRpRYNgoJSKKRAyvxejQ_V4YBfdu7ToQJ-WjMId3FCXREndaIaYY2Sdv5QhGSaCKm3nOTk/w293-h640/Messages%20and%20collapsed-picker_optimized.gif"
+          alt="Google Messages - collapsed picker" style="height:480px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+        <p style="font-size:11px; color:var(--gray-400); margin-top:8px;">축소 상태: 카메라 + 최근 사진</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSOEjOGn_EiAzqAC8_pDMkxK3hUVWdd9GiJo2mCRq0g2q1NuagelfjXJxj0qZgtZ1vKDOLeQdePLQAT6PUbDKQ5WxZEDS1hOGH1jUpSB5vO_3bx4O7btuu-bciB7bBJWh1sS2b0Z06hq6a3u3lMiE2Z3qQB66PQ948BRh8gmkupgtbVD74y6mTSLvjp9s/w292-h640/Messages%20and%20picker_optimized.gif"
+          alt="Google Messages - expanded picker" style="height:480px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+        <p style="font-size:11px; color:var(--gray-400); margin-top:8px;">확장 상태: 전체 갤러리 탐색</p>
+      </div>
+      <div style="text-align:center;">
+        <img src="https://i0.wp.com/9to5google.com/wp-content/uploads/sites/4/2026/01/Google-Messages-photo-picker-1.jpg?ssl=1"
+          alt="Google Messages screenshot 1" style="height:480px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+        <p style="font-size:11px; color:var(--gray-400); margin-top:8px;">실제 동작 화면</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Before vs After comparison -->
+  <div style="margin-bottom:24px;">
+    <h3 style="font-size:16px; font-weight:700; margin-bottom:4px;">
+      <span style="background:#34A853; color:white; padding:2px 8px; border-radius:6px; font-size:12px; margin-right:8px;">Before / After</span>
+      기존 Photo Picker vs Embedded Photo Picker
+    </h3>
+    <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px;">
+      Google Messages에서 기존 방식과 Embedded 방식의 실제 동작 차이입니다.
+      기존에는 전체 화면이 전환되지만, Embedded는 앱 안에서 자연스럽게 사진을 탐색합니다.
+    </p>
+    <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <p style="font-size:12px; font-weight:700; color:var(--danger); margin-bottom:8px;">BEFORE: 기존 Photo Picker</p>
+        <video src="https://www.androidauthority.com/wp-content/uploads/2025/10/External-photo-picker-experience-in-Google-Messages-optimized.mp4"
+          autoplay muted loop playsinline
+          style="height:480px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1); border:2px solid var(--gray-200);">
+        </video>
+        <p style="font-size:11px; color:var(--gray-400); margin-top:8px;">전체 화면 전환 발생</p>
+      </div>
+      <div style="text-align:center;">
+        <p style="font-size:12px; font-weight:700; color:var(--success); margin-bottom:8px;">AFTER: Embedded Photo Picker</p>
+        <video src="https://www.androidauthority.com/wp-content/uploads/2025/10/Embedded-photo-picker-experience-in-Google-Messages-optimized.mp4"
+          autoplay muted loop playsinline
+          style="height:480px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1); border:2px solid var(--success);">
+        </video>
+        <p style="font-size:11px; color:var(--gray-400); margin-top:8px;">앱 내 인라인 선택</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Google이 직접 선도:</strong> Google Messages가 가장 먼저 Embedded Photo Picker를 도입했으며,
+    Android 공식 블로그에서 모든 앱에 도입을 권장하고 있습니다.
+    사진 선택이 핵심인 우리 앱에서도 동일한 UX 개선 효과를 기대할 수 있습니다.
+    <br><br>
+    <span style="font-size:12px; color:var(--gray-600);">
+      출처:
+      <a href="https://9to5google.com/2026/01/27/google-messages-embedded-photo-picker/" style="color:var(--primary);">9to5Google</a> |
+      <a href="https://android-developers.googleblog.com/2026/01/httpsandroid-developers.googleblog.com202506android-embedded-photo-picker.html%20.html" style="color:var(--primary);">Android Developers Blog</a> |
+      <a href="https://www.androidpolice.com/android-16-embedded-photo-picker/" style="color:var(--primary);">Android Police</a>
+    </span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 2: Coverage - Supporting Context -->
+<!-- ============================================ -->
+<div class="section-label" style="margin-top:32px;">Coverage</div>
+
+<div class="card">
+  <h2>Android 14+ 커버리지: 88%</h2>
+  <p class="card-desc">우리 유저 대부분이 이미 지원 대상입니다 | Amplitude 최근 30일 기준</p>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="value" style="color:var(--success);">88%</div>
+      <div class="label">지원 가능 (Android 14+)</div>
+    </div>
+    <div class="kpi">
+      <div class="value" style="color:var(--gray-400);">12%</div>
+      <div class="label">미지원 (Android 13 이하)<br>기존 Picker로 fallback</div>
+    </div>
+    <div class="kpi">
+      <div class="value" style="color:var(--primary);">&#x2191; 상승 중</div>
+      <div class="label">12개월간 65% &rarr; 88%<br>매월 꾸준히 증가</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">현재 OS 분포</h3>
+      <div class="chart-container-sm">
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">월별 지원 비중 추이 (12개월)</h3>
+      <div class="chart-container" style="height:260px;">
+        <canvas id="ratioChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Fallback 전략:</strong> 미지원 12% 유저에게는 기존 <code>ACTION_PICK_IMAGES</code>를 그대로 사용합니다.
+    미지원 비중은 1년간 35% &rarr; 12%로 꾸준히 줄고 있어 리스크는 시간이 갈수록 감소합니다.
+  </div>
+</div>
+
+<!-- OS Detail (collapsible feel - compact) -->
+<div class="card">
+  <h2>참고: OS 버전별 상세</h2>
+  <p class="card-desc">최근 30일 Active Unique Users</p>
+  <div class="two-col">
+    <div>
+      <div class="chart-container" style="height:240px;">
+        <canvas id="osChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>OS</th><th style="text-align:right">유저</th><th style="text-align:right">비중</th><th>지원</th></tr></thead>
+        <tbody>
+          <tr class="supported"><td>Android 16</td><td class="num">228,474</td><td class="num">66.9%</td><td>O</td></tr>
+          <tr class="supported"><td>Android 15</td><td class="num">48,968</td><td class="num">14.3%</td><td>O</td></tr>
+          <tr class="supported"><td>Android 14</td><td class="num">23,206</td><td class="num">6.8%</td><td>O</td></tr>
+          <tr><td>Android 13</td><td class="num">21,099</td><td class="num">6.2%</td><td>X</td></tr>
+          <tr><td>Android 12</td><td class="num">13,950</td><td class="num">4.1%</td><td>X</td></tr>
+          <tr><td>Android 11-</td><td class="num">5,982</td><td class="num">1.8%</td><td>X</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- Conclusion -->
+<!-- ============================================ -->
+<div class="conclusion">
+  <h2>제안 요약</h2>
+  <ul>
+    <li>Embedded Photo Picker는 <strong>앱 이탈 없는 자연스러운 사진 선택 UX</strong>를 제공합니다.</li>
+    <li>우리 Android 유저의 <strong>88%가 이미 지원 대상</strong>이고, 이 비중은 계속 증가하고 있습니다.</li>
+    <li>미지원 유저에게는 기존 Picker로 fallback하면 되므로 <strong>도입 리스크가 낮습니다.</strong></li>
+    <li>Google 공식 API로 <strong>장기적 유지보수와 호환성</strong>이 보장됩니다.</li>
+  </ul>
+</div>
+
+<div class="source">
+  <p>데이터 출처: Amplitude (prod gangnamsister) | 2025.03 ~ 2026.03</p>
+  <p><a href="https://app.amplitude.com/analytics/healingpaper/chart/dhkxgk6d" target="_blank">Amplitude 차트 바로가기</a></p>
+</div>
+
+</div>
+
+<script>
+const months = ["'25.03","'25.04","'25.05","'25.06","'25.07","'25.08","'25.09","'25.10","'25.11","'25.12","'26.01","'26.02","'26.03"];
+const sup12   = [108761,112462,114895,118105,127232,133893,144373,142295,140974,157739,178882,170665,138717];
+const unsup12 = [58986,61658,61735,63591,73219,51980,50544,48564,44918,46442,33041,23199,18843];
+const ratios12 = sup12.map((s, i) => ((s / (s + unsup12[i])) * 100).toFixed(1));
+
+// Donut
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['지원 (Android 14+)', '미지원 (13 이하)'],
+    datasets: [{ data: [300648, 41031], backgroundColor: ['#10B981', '#E5E7EB'], borderWidth: 0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '68%',
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 12, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => {
+        const total = 300648 + 41031;
+        return `${ctx.label}: ${ctx.parsed.toLocaleString()}명 (${((ctx.parsed/total)*100).toFixed(1)}%)`;
+      }}}
+    }
+  }
+});
+
+// Ratio line
+new Chart(document.getElementById('ratioChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [{
+      data: ratios12,
+      borderColor: '#4F46E5', backgroundColor: 'rgba(79,70,229,0.06)',
+      fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#4F46E5', borderWidth: 2.5,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      annotation: {
+        annotations: {
+          start: { type: 'label', xValue: 0, yValue: 62, content: ['65%'], font: { size: 11 }, color: '#9CA3AF' },
+          end: { type: 'label', xValue: 12, yValue: 91, content: ['88%'], font: { size: 12, weight: 'bold' }, color: '#4F46E5' },
+        }
+      }
+    },
+    scales: {
+      y: { min: 55, max: 100, ticks: { callback: v => v+'%', font: { size: 11 } }, grid: { color: '#F3F4F6' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// OS horizontal bar
+new Chart(document.getElementById('osChart'), {
+  type: 'bar',
+  data: {
+    labels: ['A16', 'A15', 'A14', 'A13', 'A12', 'A11-'],
+    datasets: [{
+      data: [228474, 48968, 23206, 21099, 13950, 5982],
+      backgroundColor: ['#10B981','#10B981','#10B981','#E5E7EB','#E5E7EB','#E5E7EB'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.x.toLocaleString()+'명' } } },
+    scales: {
+      x: { ticks: { callback: v => (v/1000)+'K', font: { size: 11 } }, grid: { color: '#F3F4F6' } },
+      y: { grid: { display: false }, ticks: { font: { size: 12 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>

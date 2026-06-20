@@ -1,0 +1,229 @@
+<title>페이지 갭 리포트 · v1 → v2(iOS 기준)</title>
+<style>
+  :root{
+    --ground:#EAEEF2;
+    --paper:#F7F9FB;
+    --text:#16212E;
+    --muted:#5A6B7A;
+    --hair:#C9D2DB;
+    --accent:#C6622D;      /* burnt amber — 그 17의 신호 */
+    --accent-soft:#F0E0D3;
+    --teal:#2E6E7E;        /* 크로스플랫폼 축 */
+    --teal-soft:#DCE8E9;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Roboto Mono", monospace;
+    --sans: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ground); color:var(--text);
+    font-family:var(--sans); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 64px;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 20px}
+
+  /* ---- HERO ---- */
+  header{padding:48px 0 36px; border-bottom:2px solid var(--text)}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 22px;
+  }
+  .eyebrow b{color:var(--accent); font-weight:600}
+  .thesis-num{
+    font-family:var(--sans); font-weight:800; letter-spacing:-.04em;
+    font-size:clamp(76px,22vw,148px); line-height:.82; margin:0;
+    display:flex; align-items:baseline; gap:.12em; flex-wrap:wrap;
+  }
+  .thesis-num .arrow{font-size:.42em; font-weight:600; color:var(--muted); letter-spacing:-.02em}
+  .thesis-num .split{font-size:.62em; color:var(--accent)}
+  .thesis-num .plus{font-size:.42em; color:var(--muted); font-weight:600}
+  .thesis-num .ok{font-size:.62em; color:var(--teal)}
+  .lead{
+    font-size:clamp(17px,4.4vw,21px); max-width:34em; margin:24px 0 0;
+    color:var(--text);
+  }
+  .lead b{color:var(--accent); font-weight:700}
+  .correct{
+    margin:20px 0 0; padding:14px 16px; background:var(--accent-soft);
+    border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+    font-size:14.5px; color:#5a3520;
+  }
+
+  /* ---- mini stat strip ---- */
+  .strip{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--hair); border:1px solid var(--hair);
+    margin:28px 0 0; border-radius:8px; overflow:hidden;
+  }
+  .strip div{background:var(--paper); padding:14px 14px}
+  .strip .n{font-family:var(--mono); font-size:22px; font-weight:600; letter-spacing:-.02em}
+  .strip .k{font-size:11.5px; color:var(--muted); margin-top:3px; line-height:1.3}
+
+  /* ---- section ---- */
+  section{padding:40px 0 0}
+  h2{
+    font-size:13px; font-family:var(--mono); letter-spacing:.06em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 4px;
+  }
+  .h2-title{font-size:clamp(21px,5.4vw,27px); font-weight:800; letter-spacing:-.025em; margin:0 0 18px}
+  .h2-title .em{color:var(--accent)}
+  .h2-title .em-t{color:var(--teal)}
+
+  /* ---- the 17 ledger ---- */
+  .grp{margin:0 0 22px}
+  .grp-head{
+    display:flex; align-items:baseline; gap:10px; margin:0 0 8px;
+    padding-bottom:6px; border-bottom:1px solid var(--hair);
+  }
+  .grp-head .gl{font-weight:700; font-size:15px}
+  .grp-head .gc{font-family:var(--mono); font-size:12px; color:var(--accent); font-weight:600}
+  .grp-head .gc.muted{color:var(--muted)}
+  .grp-head .gd{font-size:12.5px; color:var(--muted); margin-left:auto; text-align:right}
+
+  ul.rows{list-style:none; margin:0; padding:0}
+  ul.rows li{
+    display:grid; grid-template-columns:26px 1fr auto; align-items:baseline;
+    gap:10px; padding:8px 0; border-bottom:1px solid #DFE5EB;
+  }
+  ul.rows li:last-child{border-bottom:0}
+  .rn{font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .rmain .nm{font-weight:600; font-size:15px}
+  .rmain .cls{font-family:var(--mono); font-size:11.5px; color:var(--muted); display:block; margin-top:1px; word-break:break-word}
+  .tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.03em;
+    text-transform:uppercase; white-space:nowrap; padding:3px 8px;
+    border-radius:20px; border:1px solid currentColor; font-weight:600;
+    align-self:center;
+  }
+  .tag.add{color:var(--accent)}
+  .tag.drop{color:var(--muted)}
+  .tag.demote{color:var(--muted)}
+  .tag.fold{color:var(--muted)}
+
+  /* ---- cross platform ---- */
+  .xgrid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media(max-width:560px){.xgrid{grid-template-columns:1fr}}
+  .col{background:var(--paper); border:1px solid var(--hair); border-radius:10px; padding:18px 16px}
+  .col.ios{border-top:3px solid var(--teal)}
+  .col.aos{border-top:3px solid var(--text)}
+  .col .ch{display:flex; align-items:baseline; justify-content:space-between; margin:0 0 12px}
+  .col .ch .t{font-weight:800; font-size:16px}
+  .col .ch .c{font-family:var(--mono); font-size:20px; font-weight:600}
+  .col.ios .ch .c{color:var(--teal)}
+  .col.aos .ch .c{color:var(--text)}
+  .col .note{font-size:12px; color:var(--muted); margin:0 0 14px; padding-bottom:12px; border-bottom:1px dashed var(--hair)}
+  .col ul{list-style:none; margin:0; padding:0}
+  .col li{padding:6px 0; font-size:13.5px; display:flex; flex-direction:column}
+  .col li .nm{font-weight:600}
+  .col li code{font-family:var(--mono); font-size:11px; color:var(--muted)}
+
+  /* ---- footer ---- */
+  footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--hair); font-size:12.5px; color:var(--muted)}
+  footer code{font-family:var(--mono); background:var(--paper); padding:1px 5px; border-radius:4px; border:1px solid var(--hair); word-break:break-all}
+  footer p{margin:6px 0}
+
+  @media(prefers-reduced-motion:no-preference){
+    .fade{opacity:0; transform:translateY(8px); animation:fi .5s ease forwards}
+    @keyframes fi{to{opacity:1; transform:none}}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">강남언니 페이지 텍소노미 · <b>v1 → v2 (iOS 기준 재도출)</b></p>
+    <p class="thesis-num fade">17
+      <span class="arrow">→</span>
+      <span class="split">10</span><span class="plus">복구</span>
+      <span class="ok">+&nbsp;7</span><span class="plus">정당</span>
+    </p>
+    <p class="lead">그 <b>17</b>은 — iOS와의 갭이 아니라, <b>우리 기존 v1 목록엔 있었는데 "iOS와 같은 기준"으로 새로 뽑은 v2가 처음에 못 잡은 화면</b> 수입니다.</p>
+    <div class="correct">
+      대조해보니 17개 전부 설명됩니다 — <b>10개는 진짜 page라 v2에 복구</b>, 나머지 <b>7개는 page가 아닌 게 맞음</b>(dead·중복·component·입도). 누락은 0, 기준은 그대로 성립.
+    </div>
+    <div class="strip">
+      <div><div class="n">115</div><div class="k">v2 고유 page<br>(iOS 기준 재도출)</div></div>
+      <div><div class="n">≈103</div><div class="k">iOS v1 page<br>(동료 텍소노미)</div></div>
+      <div><div class="n">7 + 7</div><div class="k">실제 iOS↔AOS<br>크로스플랫폼 갭</div></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Resolution</h2>
+    <p class="h2-title">그 <span class="em">17</span>은 무엇이었나</p>
+
+    <div class="grp">
+      <div class="grp-head">
+        <span class="gl">진짜 page였다 → v2에 복구</span>
+        <span class="gc">10</span>
+        <span class="gd">도메인 에이전트 스코프 사이로 샌 legacy-app 화면</span>
+      </div>
+      <ul class="rows">
+        <li><span class="rn">01</span><span class="rmain"><span class="nm">이벤트 랭킹</span><code class="cls">EventRankingFragment → event_ranking</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">02</span><span class="rmain"><span class="nm">이벤트 큐레이션</span><code class="cls">EventCurationFragment → event_curation</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">03</span><span class="rmain"><span class="nm">채팅 상담</span><code class="cls">ChattingConsultationActivity → chatting_consultation</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">04</span><span class="rmain"><span class="nm">채팅 상담 신청</span><code class="cls">ChattingConsultationRequestActivity</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">05</span><span class="rmain"><span class="nm">방문 예약</span><code class="cls">VisitReservationActivity → visit_reservation</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">06</span><span class="rmain"><span class="nm">포토 키오스크</span><code class="cls">PhotoKioskListScreen → photo_kiosk_list</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">07</span><span class="rmain"><span class="nm">유튜브 뷰어</span><code class="cls">YouTubeViewActivity → youtube_view</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">08</span><span class="rmain"><span class="nm">다중 사진 편집</span><code class="cls">MultiPhotoEditorActivity → multi_photo_editor</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">09</span><span class="rmain"><span class="nm">사진 크롭</span><code class="cls">PhotoCropActivity → photo_crop</code></span><span class="tag add">복구</span></li>
+        <li><span class="rn">10</span><span class="rmain"><span class="nm">사진 뷰어</span><code class="cls">PhotoViewActivity → photo_view</code></span><span class="tag add">복구</span></li>
+      </ul>
+    </div>
+
+    <div class="grp">
+      <div class="grp-head">
+        <span class="gl">page가 아닌 게 맞다</span>
+        <span class="gc muted">7</span>
+        <span class="gd">dead · 중복 · component · 입도</span>
+      </div>
+      <ul class="rows">
+        <li><span class="rn">11</span><span class="rmain"><span class="nm">레거시 메시지 목록</span><code class="cls">MessageListFragment · 실호출 0 (DM으로 이전)</code></span><span class="tag drop">제외 · dead</span></li>
+        <li><span class="rn">12</span><span class="rmain"><span class="nm">레거시 메시지 상세</span><code class="cls">MessageDetailActivity · 호출자가 dead</code></span><span class="tag drop">제외 · dead</span></li>
+        <li><span class="rn">13</span><span class="rmain"><span class="nm">기획전 목록</span><code class="cls">ExhibitionListFragment · page_group_list와 동일</code></span><span class="tag drop">제외 · 중복</span></li>
+        <li><span class="rn">14</span><span class="rmain"><span class="nm">일본 캠페인 목록</span><code class="cls">JapanCampaignListFragment · newInstance만, 미사용</code></span><span class="tag drop">제외 · 미사용</span></li>
+        <li><span class="rn">15</span><span class="rmain"><span class="nm">마케팅 프로모션</span><code class="cls">MarketingPromotion* · OverlayActivity</code></span><span class="tag demote">강등 · component</span></li>
+        <li><span class="rn">16</span><span class="rmain"><span class="nm">공지 팝업</span><code class="cls">NoticePopupActivity · 팝업</code></span><span class="tag demote">강등 · component</span></li>
+        <li><span class="rn">17</span><span class="rmain"><span class="nm">언니팁 콘텐츠</span><code class="cls">UnniTipContentScreen · medical_tip + 5 step에 흡수</code></span><span class="tag fold">입도 흡수</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cross-platform</h2>
+    <p class="h2-title">진짜 <span class="em-t">iOS ↔ AOS</span> 갭 — 7 + 7</p>
+    <div class="xgrid">
+      <div class="col ios">
+        <div class="ch"><span class="t">iOS만</span><span class="c">7</span></div>
+        <p class="note">iOS page지만 AOS 네이티브·실사용 웹뷰가 모두 없음 — 대부분 결제·예약·주문(Web 중심).</p>
+        <ul>
+          <li><span class="nm">이벤트 예약</span><code>event_booking · 진입 함수 없음</code></li>
+          <li><span class="nm">병원 예약</span><code>hospital_booking · 진입 함수 없음</code></li>
+          <li><span class="nm">콜백 예약</span><code>callback_reservation</code></li>
+          <li><span class="nm">상담 완료</span><code>consultation_complete</code></li>
+          <li><span class="nm">주문 성공</span><code>order_success</code></li>
+          <li><span class="nm">캠페인 상세</span><code>campaign_detail · 광고/웹뷰</code></li>
+          <li><span class="nm">콘텐츠 팁</span><code>content_tips · 코드 전무</code></li>
+        </ul>
+      </div>
+      <div class="col aos">
+        <div class="ch"><span class="t">AOS만</span><span class="c">7</span></div>
+        <p class="note">v2·v1 모두 보유하나 iOS 텍소노미엔 대응 page 없음 — 플랫폼 고유 네이티브.</p>
+        <ul>
+          <li><span class="nm">애플 로그인</span><code>apple_login</code></li>
+          <li><span class="nm">지도</span><code>maps</code></li>
+          <li><span class="nm">유튜브 뷰어</span><code>youtube_view</code></li>
+          <li><span class="nm">다중 사진 편집</span><code>multi_photo_editor</code></li>
+          <li><span class="nm">사진 크롭</span><code>photo_crop</code></li>
+          <li><span class="nm">사진 뷰어</span><code>photo_view</code></li>
+          <li><span class="nm">전체 기획전 목록</span><code>page_group_list · iOS는 pagegroup_detail만</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>출처 — v2 목록 <code>docs/page-list-v2-by-notion.md</code> · 3-way diff <code>docs/page-3way-diff.md</code> · 분류 원천 <code>docs/page-analysis-v2/*.jsonl</code></p>
+    <p>v2는 iOS 동료 노션 텍소노미의 판정축·플로차트·R1~R5를 그대로 적용하되 AOS 전 구현체(Circuit·Fragment·Activity·WebView·Overlay) 신호로 보강해 코드에서 독립 재도출. 역전파(어느 쪽이 옳은지) 판단은 포함하지 않음.</p>
+  </footer>
+</div>

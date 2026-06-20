@@ -1,204 +1,148 @@
-<title>페이지 갭 리포트 · v1 → v2(iOS 기준)</title>
+<title>iOS ↔ Android 페이지 텍소노미 대조</title>
 <style>
   :root{
-    --ground:#EAEEF2;
-    --paper:#F7F9FB;
-    --text:#16212E;
-    --muted:#5A6B7A;
-    --hair:#C9D2DB;
-    --accent:#C6622D;      /* burnt amber — 그 17의 신호 */
-    --accent-soft:#F0E0D3;
-    --teal:#2E6E7E;        /* 크로스플랫폼 축 */
-    --teal-soft:#DCE8E9;
+    --ground:#EAEEF2; --paper:#F7F9FB; --text:#16212E; --muted:#5A6B7A; --hair:#C9D2DB;
+    --accent:#C6622D; --accent-soft:#F0E0D3;
+    --teal:#2E6E7E; --teal-soft:#DCE8E9;
     --mono: ui-monospace, "SF Mono", "Menlo", "Roboto Mono", monospace;
     --sans: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--ground); color:var(--text);
-    font-family:var(--sans); line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    padding:0 0 64px;
-  }
-  .wrap{max-width:760px; margin:0 auto; padding:0 20px}
+  body{margin:0; background:var(--ground); color:var(--text); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; padding:0 0 64px}
+  .wrap{max-width:780px; margin:0 auto; padding:0 20px}
 
-  /* ---- HERO ---- */
-  header{padding:48px 0 36px; border-bottom:2px solid var(--text)}
-  .eyebrow{
-    font-family:var(--mono); font-size:12px; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--muted); margin:0 0 22px;
-  }
-  .eyebrow b{color:var(--accent); font-weight:600}
-  .thesis-num{
-    font-family:var(--sans); font-weight:800; letter-spacing:-.04em;
-    font-size:clamp(76px,22vw,148px); line-height:.82; margin:0;
-    display:flex; align-items:baseline; gap:.12em; flex-wrap:wrap;
-  }
-  .thesis-num .arrow{font-size:.42em; font-weight:600; color:var(--muted); letter-spacing:-.02em}
-  .thesis-num .split{font-size:.62em; color:var(--accent)}
-  .thesis-num .plus{font-size:.42em; color:var(--muted); font-weight:600}
-  .thesis-num .ok{font-size:.62em; color:var(--teal)}
-  .lead{
-    font-size:clamp(17px,4.4vw,21px); max-width:34em; margin:24px 0 0;
-    color:var(--text);
-  }
+  header{padding:46px 0 32px; border-bottom:2px solid var(--text)}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin:0 0 18px}
+  .eyebrow b{color:var(--text); font-weight:700}
+  h1{font-size:clamp(26px,6.6vw,40px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin:0; max-width:16em}
+  h1 .a{color:var(--teal)} h1 .b{color:var(--text)}
+  .lead{font-size:clamp(15.5px,4vw,18px); color:var(--muted); margin:18px 0 0; max-width:36em}
   .lead b{color:var(--accent); font-weight:700}
-  .correct{
-    margin:20px 0 0; padding:14px 16px; background:var(--accent-soft);
-    border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
-    font-size:14.5px; color:#5a3520;
-  }
 
-  /* ---- mini stat strip ---- */
-  .strip{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
-    background:var(--hair); border:1px solid var(--hair);
-    margin:28px 0 0; border-radius:8px; overflow:hidden;
-  }
-  .strip div{background:var(--paper); padding:14px 14px}
-  .strip .n{font-family:var(--mono); font-size:22px; font-weight:600; letter-spacing:-.02em}
-  .strip .k{font-size:11.5px; color:var(--muted); margin-top:3px; line-height:1.3}
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--hair); border:1px solid var(--hair); margin:26px 0 0; border-radius:8px; overflow:hidden}
+  @media(max-width:520px){.strip{grid-template-columns:repeat(2,1fr)}}
+  .strip div{background:var(--paper); padding:13px 12px}
+  .strip .n{font-family:var(--mono); font-size:21px; font-weight:600; letter-spacing:-.02em}
+  .strip .n.warn{color:var(--accent)} .strip .n.ios{color:var(--teal)}
+  .strip .k{font-size:11px; color:var(--muted); margin-top:3px; line-height:1.3}
 
-  /* ---- section ---- */
-  section{padding:40px 0 0}
-  h2{
-    font-size:13px; font-family:var(--mono); letter-spacing:.06em;
-    text-transform:uppercase; color:var(--muted); margin:0 0 4px;
-  }
-  .h2-title{font-size:clamp(21px,5.4vw,27px); font-weight:800; letter-spacing:-.025em; margin:0 0 18px}
-  .h2-title .em{color:var(--accent)}
-  .h2-title .em-t{color:var(--teal)}
+  section{padding:38px 0 0}
+  h2{font-size:12.5px; font-family:var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:0 0 4px}
+  .h2-title{font-size:clamp(20px,5.2vw,26px); font-weight:800; letter-spacing:-.025em; margin:0 0 6px}
+  .h2-title .em{color:var(--accent)} .h2-title .em-t{color:var(--teal)}
+  .h2-sub{font-size:13.5px; color:var(--muted); margin:0 0 18px; max-width:40em}
 
-  /* ---- the 17 ledger ---- */
-  .grp{margin:0 0 22px}
-  .grp-head{
-    display:flex; align-items:baseline; gap:10px; margin:0 0 8px;
-    padding-bottom:6px; border-bottom:1px solid var(--hair);
-  }
-  .grp-head .gl{font-weight:700; font-size:15px}
-  .grp-head .gc{font-family:var(--mono); font-size:12px; color:var(--accent); font-weight:600}
-  .grp-head .gc.muted{color:var(--muted)}
-  .grp-head .gd{font-size:12.5px; color:var(--muted); margin-left:auto; text-align:right}
+  /* disagreement cards */
+  .disagree{display:flex; flex-direction:column; gap:14px}
+  .dcard{background:var(--paper); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:15px 16px}
+  .dcard .dt{font-weight:800; font-size:16px; margin:0 0 9px}
+  .dcard .vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 9px}
+  @media(max-width:520px){.dcard .vs{grid-template-columns:1fr}}
+  .dcard .side{background:#fff; border:1px solid var(--hair); border-radius:7px; padding:9px 11px}
+  .dcard .side .lab{font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px}
+  .dcard .side.ios .lab{color:var(--teal)}
+  .dcard .side .val{font-size:13px} .dcard .side .val code{font-family:var(--mono); font-size:11px}
+  .dcard .why{font-size:12.5px; color:var(--muted); margin:0}
+  .dcard .why b{color:var(--text)}
 
-  ul.rows{list-style:none; margin:0; padding:0}
-  ul.rows li{
-    display:grid; grid-template-columns:26px 1fr auto; align-items:baseline;
-    gap:10px; padding:8px 0; border-bottom:1px solid #DFE5EB;
-  }
-  ul.rows li:last-child{border-bottom:0}
-  .rn{font-family:var(--mono); font-size:12px; color:var(--muted)}
-  .rmain .nm{font-weight:600; font-size:15px}
-  .rmain .cls{font-family:var(--mono); font-size:11.5px; color:var(--muted); display:block; margin-top:1px; word-break:break-word}
-  .tag{
-    font-family:var(--mono); font-size:10.5px; letter-spacing:.03em;
-    text-transform:uppercase; white-space:nowrap; padding:3px 8px;
-    border-radius:20px; border:1px solid currentColor; font-weight:600;
-    align-self:center;
-  }
-  .tag.add{color:var(--accent)}
-  .tag.drop{color:var(--muted)}
-  .tag.demote{color:var(--muted)}
-  .tag.fold{color:var(--muted)}
-
-  /* ---- cross platform ---- */
+  /* coverage cols */
   .xgrid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
-  @media(max-width:560px){.xgrid{grid-template-columns:1fr}}
-  .col{background:var(--paper); border:1px solid var(--hair); border-radius:10px; padding:18px 16px}
-  .col.ios{border-top:3px solid var(--teal)}
-  .col.aos{border-top:3px solid var(--text)}
-  .col .ch{display:flex; align-items:baseline; justify-content:space-between; margin:0 0 12px}
+  @media(max-width:600px){.xgrid{grid-template-columns:1fr}}
+  .col{background:var(--paper); border:1px solid var(--hair); border-radius:10px; padding:17px 16px}
+  .col.ios{border-top:3px solid var(--teal)} .col.aos{border-top:3px solid var(--text)}
+  .col .ch{display:flex; align-items:baseline; justify-content:space-between; margin:0 0 6px}
   .col .ch .t{font-weight:800; font-size:16px}
-  .col .ch .c{font-family:var(--mono); font-size:20px; font-weight:600}
-  .col.ios .ch .c{color:var(--teal)}
-  .col.aos .ch .c{color:var(--text)}
-  .col .note{font-size:12px; color:var(--muted); margin:0 0 14px; padding-bottom:12px; border-bottom:1px dashed var(--hair)}
+  .col .ch .c{font-family:var(--mono); font-size:19px; font-weight:600}
+  .col.ios .ch .c{color:var(--teal)} .col.aos .ch .c{color:var(--text)}
+  .col .note{font-size:12px; color:var(--muted); margin:0 0 12px; padding-bottom:11px; border-bottom:1px dashed var(--hair)}
+  .grpname{font-family:var(--mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:12px 0 5px}
+  .grpname:first-of-type{margin-top:0}
   .col ul{list-style:none; margin:0; padding:0}
-  .col li{padding:6px 0; font-size:13.5px; display:flex; flex-direction:column}
-  .col li .nm{font-weight:600}
-  .col li code{font-family:var(--mono); font-size:11px; color:var(--muted)}
+  .col li{padding:5px 0; font-size:13px; display:flex; flex-direction:column; border-bottom:1px solid #E4E9EE}
+  .col li:last-child{border-bottom:0}
+  .col li .nm{font-weight:600} .col li code{font-family:var(--mono); font-size:10.5px; color:var(--muted)}
 
-  /* ---- footer ---- */
-  footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--hair); font-size:12.5px; color:var(--muted)}
-  footer code{font-family:var(--mono); background:var(--paper); padding:1px 5px; border-radius:4px; border:1px solid var(--hair); word-break:break-all}
-  footer p{margin:6px 0}
+  /* naming map */
+  .maptbl{width:100%; border-collapse:collapse; font-size:13px; margin-top:4px}
+  .maptbl th{text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); padding:0 8px 8px; border-bottom:1px solid var(--hair)}
+  .maptbl td{padding:7px 8px; border-bottom:1px solid #E4E9EE; vertical-align:top}
+  .maptbl td.cc{font-weight:600; width:30%}
+  .maptbl td code{font-family:var(--mono); font-size:11px; word-break:break-word}
+  .maptbl .aos code{color:var(--text)} .maptbl .ios code{color:var(--teal)}
+  .scroll{overflow-x:auto}
 
-  @media(prefers-reduced-motion:no-preference){
-    .fade{opacity:0; transform:translateY(8px); animation:fi .5s ease forwards}
-    @keyframes fi{to{opacity:1; transform:none}}
-  }
+  footer{margin-top:42px; padding-top:18px; border-top:1px solid var(--hair); font-size:12px; color:var(--muted)}
+  footer b{color:var(--text)}
 </style>
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">강남언니 페이지 텍소노미 · <b>v1 → v2 (iOS 기준 재도출)</b></p>
-    <p class="thesis-num fade">17
-      <span class="arrow">→</span>
-      <span class="split">10</span><span class="plus">복구</span>
-      <span class="ok">+&nbsp;7</span><span class="plus">정당</span>
-    </p>
-    <p class="lead">그 <b>17</b>은 — iOS와의 갭이 아니라, <b>우리 기존 v1 목록엔 있었는데 "iOS와 같은 기준"으로 새로 뽑은 v2가 처음에 못 잡은 화면</b> 수입니다.</p>
-    <div class="correct">
-      대조해보니 17개 전부 설명됩니다 — <b>10개는 진짜 page라 v2에 복구</b>, 나머지 <b>7개는 page가 아닌 게 맞음</b>(dead·중복·component·입도). 누락은 0, 기준은 그대로 성립.
-    </div>
+    <p class="eyebrow">강남언니 페이지 텍소노미 · <b>iOS ↔ Android 대조</b></p>
+    <h1><span class="a">iOS</span> 기준으로 맞춰본 <span class="b">Android</span> 페이지 텍소노미</h1>
+    <p class="lead">iOS 텍소노미의 판정축·플로차트·R1~R5를 그대로 Android 코드(Circuit·Fragment·Activity·WebView)에 적용해 독립 재도출. 개념 정렬은 대부분 일치하고, <b>논의가 필요한 건 분류 기준이 갈린 4곳과 양쪽 커버리지 차이</b>뿐입니다.</p>
     <div class="strip">
-      <div><div class="n">115</div><div class="k">v2 고유 page<br>(iOS 기준 재도출)</div></div>
-      <div><div class="n">≈103</div><div class="k">iOS v1 page<br>(동료 텍소노미)</div></div>
-      <div><div class="n">7 + 7</div><div class="k">실제 iOS↔AOS<br>크로스플랫폼 갭</div></div>
+      <div><div class="n">80</div><div class="k">개념 정렬됨<br>(동일 32 + 명칭만 다름 48)</div></div>
+      <div><div class="n warn">4</div><div class="k">분류 기준 갈림<br>(논의 필요)</div></div>
+      <div><div class="n ios">7</div><div class="k">iOS만<br>(AOS 네이티브 없음)</div></div>
+      <div><div class="n">~25</div><div class="k">AOS만<br>(iOS 텍소노미 미기재)</div></div>
     </div>
   </header>
 
   <section>
-    <h2>Resolution</h2>
-    <p class="h2-title">그 <span class="em">17</span>은 무엇이었나</p>
+    <h2>Needs discussion</h2>
+    <p class="h2-title">분류 기준이 <span class="em">갈린 곳</span> — 4</p>
+    <p class="h2-sub">같은 화면을 두 플랫폼이 다르게 분류한 지점. 어느 쪽으로 정렬할지 합의가 필요합니다.</p>
+    <div class="disagree">
 
-    <div class="grp">
-      <div class="grp-head">
-        <span class="gl">진짜 page였다 → v2에 복구</span>
-        <span class="gc">10</span>
-        <span class="gd">도메인 에이전트 스코프 사이로 샌 legacy-app 화면</span>
+      <div class="dcard">
+        <p class="dt">검색 결과</p>
+        <div class="vs">
+          <div class="side ios"><span class="lab">iOS — 형제 page 6</span><span class="val">search_all · search_hospital · search_doctor · search_event · search_review · search_community</span></div>
+          <div class="side"><span class="lab">AOS — page 1 + tab 6</span><span class="val"><code>total_search</code> 안의 결과 탭 6종</span></div>
+        </div>
+        <p class="why">AOS는 모든 <code>SEARCH_*</code> 딥링크가 단일 진입점(<b>goTotalSearch(withFirstShowTab)</b>)으로 수렴 → "한 검색의 단면"으로 보고 탭 판정(policy2). iOS는 각 결과를 독립 page로 봄. <b>형제 page냐 / 한 page의 탭이냐</b>가 핵심 쟁점.</p>
       </div>
-      <ul class="rows">
-        <li><span class="rn">01</span><span class="rmain"><span class="nm">이벤트 랭킹</span><code class="cls">EventRankingFragment → event_ranking</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">02</span><span class="rmain"><span class="nm">이벤트 큐레이션</span><code class="cls">EventCurationFragment → event_curation</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">03</span><span class="rmain"><span class="nm">채팅 상담</span><code class="cls">ChattingConsultationActivity → chatting_consultation</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">04</span><span class="rmain"><span class="nm">채팅 상담 신청</span><code class="cls">ChattingConsultationRequestActivity</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">05</span><span class="rmain"><span class="nm">방문 예약</span><code class="cls">VisitReservationActivity → visit_reservation</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">06</span><span class="rmain"><span class="nm">포토 키오스크</span><code class="cls">PhotoKioskListScreen → photo_kiosk_list</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">07</span><span class="rmain"><span class="nm">유튜브 뷰어</span><code class="cls">YouTubeViewActivity → youtube_view</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">08</span><span class="rmain"><span class="nm">다중 사진 편집</span><code class="cls">MultiPhotoEditorActivity → multi_photo_editor</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">09</span><span class="rmain"><span class="nm">사진 크롭</span><code class="cls">PhotoCropActivity → photo_crop</code></span><span class="tag add">복구</span></li>
-        <li><span class="rn">10</span><span class="rmain"><span class="nm">사진 뷰어</span><code class="cls">PhotoViewActivity → photo_view</code></span><span class="tag add">복구</span></li>
-      </ul>
-    </div>
 
-    <div class="grp">
-      <div class="grp-head">
-        <span class="gl">page가 아닌 게 맞다</span>
-        <span class="gc muted">7</span>
-        <span class="gd">dead · 중복 · component · 입도</span>
+      <div class="dcard">
+        <p class="dt">언니팁 콘텐츠</p>
+        <div class="vs">
+          <div class="side ios"><span class="lab">iOS — page</span><span class="val"><code>unni_tip_content</code> 별도 page</span></div>
+          <div class="side"><span class="lab">AOS — step</span><span class="val"><code>medical_tip</code>(UnniTipFragment) 1 page + 5 step 에 흡수</span></div>
+        </div>
+        <p class="why">AOS는 intro→area→concern→survey→result 를 한 흐름의 step으로 봄. iOS는 콘텐츠를 독립 page로 분리.</p>
       </div>
-      <ul class="rows">
-        <li><span class="rn">11</span><span class="rmain"><span class="nm">레거시 메시지 목록</span><code class="cls">MessageListFragment · 실호출 0 (DM으로 이전)</code></span><span class="tag drop">제외 · dead</span></li>
-        <li><span class="rn">12</span><span class="rmain"><span class="nm">레거시 메시지 상세</span><code class="cls">MessageDetailActivity · 호출자가 dead</code></span><span class="tag drop">제외 · dead</span></li>
-        <li><span class="rn">13</span><span class="rmain"><span class="nm">기획전 목록</span><code class="cls">ExhibitionListFragment · page_group_list와 동일</code></span><span class="tag drop">제외 · 중복</span></li>
-        <li><span class="rn">14</span><span class="rmain"><span class="nm">일본 캠페인 목록</span><code class="cls">JapanCampaignListFragment · newInstance만, 미사용</code></span><span class="tag drop">제외 · 미사용</span></li>
-        <li><span class="rn">15</span><span class="rmain"><span class="nm">마케팅 프로모션</span><code class="cls">MarketingPromotion* · OverlayActivity</code></span><span class="tag demote">강등 · component</span></li>
-        <li><span class="rn">16</span><span class="rmain"><span class="nm">공지 팝업</span><code class="cls">NoticePopupActivity · 팝업</code></span><span class="tag demote">강등 · component</span></li>
-        <li><span class="rn">17</span><span class="rmain"><span class="nm">언니팁 콘텐츠</span><code class="cls">UnniTipContentScreen · medical_tip + 5 step에 흡수</code></span><span class="tag fold">입도 흡수</span></li>
-      </ul>
+
+      <div class="dcard">
+        <p class="dt">이벤트 상세</p>
+        <div class="vs">
+          <div class="side ios"><span class="lab">iOS — page</span><span class="val"><code>event_detail</code> 별도 page</span></div>
+          <div class="side"><span class="lab">AOS — 흡수</span><span class="val"><code>page_group_detail</code> 의 EventGroupActivity(FF OFF) 분기로 흡수, 별도 event page 없음</span></div>
+        </div>
+        <p class="why">AOS에선 기획전 상세와 이벤트 상세가 같은 진입(FF 분기)이라 별도 page로 분리되지 않음.</p>
+      </div>
+
+      <div class="dcard">
+        <p class="dt">상담 목록</p>
+        <div class="vs">
+          <div class="side ios"><span class="lab">iOS — page</span><span class="val"><code>consultation_list</code></span></div>
+          <div class="side"><span class="lab">AOS — 보류</span><span class="val">ChattingListFragment / ConsultationStatus(웹뷰) 혼재로 미집계</span></div>
+        </div>
+        <p class="why">AOS는 네이티브 Fragment와 웹뷰가 섞여 있어 단일 page로 확정 못 한 상태. iOS 기준 맞추려면 AOS 쪽 정리 필요.</p>
+      </div>
+
     </div>
   </section>
 
   <section>
-    <h2>Cross-platform</h2>
-    <p class="h2-title">진짜 <span class="em-t">iOS ↔ AOS</span> 갭 — 7 + 7</p>
+    <h2>Coverage</h2>
+    <p class="h2-title">양쪽 <span class="em-t">커버리지</span> 차이</p>
     <div class="xgrid">
       <div class="col ios">
         <div class="ch"><span class="t">iOS만</span><span class="c">7</span></div>
-        <p class="note">iOS page지만 AOS 네이티브·실사용 웹뷰가 모두 없음 — 대부분 결제·예약·주문(Web 중심).</p>
+        <p class="note">iOS page지만 AOS는 네이티브·실사용 웹뷰가 모두 없음 — 대부분 결제·예약·주문(AOS는 Web 중심).</p>
         <ul>
-          <li><span class="nm">이벤트 예약</span><code>event_booking · 진입 함수 없음</code></li>
-          <li><span class="nm">병원 예약</span><code>hospital_booking · 진입 함수 없음</code></li>
+          <li><span class="nm">이벤트 예약</span><code>event_booking</code></li>
+          <li><span class="nm">병원 예약</span><code>hospital_booking</code></li>
           <li><span class="nm">콜백 예약</span><code>callback_reservation</code></li>
           <li><span class="nm">상담 완료</span><code>consultation_complete</code></li>
           <li><span class="nm">주문 성공</span><code>order_success</code></li>
@@ -207,23 +151,97 @@
         </ul>
       </div>
       <div class="col aos">
-        <div class="ch"><span class="t">AOS만</span><span class="c">7</span></div>
-        <p class="note">v2·v1 모두 보유하나 iOS 텍소노미엔 대응 page 없음 — 플랫폼 고유 네이티브.</p>
+        <div class="ch"><span class="t">AOS만</span><span class="c">~25</span></div>
+        <p class="note">AOS엔 page로 잡혔으나 iOS 텍소노미엔 없음. <b>iOS도 있는데 미기재인지, AOS 고유인지 확인 부탁</b>.</p>
+        <p class="grpname">인증 · 계정</p>
         <ul>
+          <li><span class="nm">이메일 로그인/가입 4종</span><code>email_sign_in · email_sign_up · email_input · email_sign_email_input</code></li>
+          <li><span class="nm">비밀번호 재설정 · 임시비번 3종</span><code>password_reset · temporal_password(_complete)</code></li>
           <li><span class="nm">애플 로그인</span><code>apple_login</code></li>
+          <li><span class="nm">관심지역</span><code>favorite_district</code></li>
+        </ul>
+        <p class="grpname">미디어 · 유틸</p>
+        <ul>
           <li><span class="nm">지도</span><code>maps</code></li>
           <li><span class="nm">유튜브 뷰어</span><code>youtube_view</code></li>
-          <li><span class="nm">다중 사진 편집</span><code>multi_photo_editor</code></li>
-          <li><span class="nm">사진 크롭</span><code>photo_crop</code></li>
-          <li><span class="nm">사진 뷰어</span><code>photo_view</code></li>
+          <li><span class="nm">사진 편집/크롭/뷰어 3종</span><code>multi_photo_editor · photo_crop · photo_view</code></li>
+        </ul>
+        <p class="grpname">커뮤니티 · 콘텐츠</p>
+        <ul>
+          <li><span class="nm">블라인드 안내/복원요청</span><code>blind_guide · blind_restore_request</code></li>
+          <li><span class="nm">리뷰 댓글 상세</span><code>review_comment_detail</code></li>
           <li><span class="nm">전체 기획전 목록</span><code>page_group_list · iOS는 pagegroup_detail만</code></li>
+          <li><span class="nm">최근 본 이벤트</span><code>recently_viewed_event</code></li>
+          <li><span class="nm">유저 메시지 정보</span><code>user_message_info</code></li>
+        </ul>
+        <p class="grpname">웹뷰 목적지 (실사용 ≥1)</p>
+        <ul>
+          <li><span class="nm">채널톡 로그인</span><code>channel_talk_login</code></li>
+          <li><span class="nm">예약 채팅 목록</span><code>appointment_chats</code></li>
+          <li><span class="nm">언니가이드 상담</span><code>unni_guide_consultation</code></li>
+          <li><span class="nm">리서치 신청</span><code>research_application</code></li>
         </ul>
       </div>
     </div>
   </section>
 
+  <section>
+    <h2>Naming</h2>
+    <p class="h2-title">명칭 매핑 — 같은 개념, 다른 이름</p>
+    <p class="h2-sub">분류는 일치하고 이름만 다른 48건. 크로스플랫폼 정본 명칭 정할 때 참고.</p>
+    <div class="scroll">
+      <table class="maptbl">
+        <thead><tr><th>개념</th><th>Android</th><th>iOS</th></tr></thead>
+        <tbody>
+          <tr><td class="cc">SNS 회원가입</td><td class="aos"><code>sns_signup</code></td><td class="ios"><code>signup</code></td></tr>
+          <tr><td class="cc">휴대폰 인증</td><td class="aos"><code>phone_verification_prompt</code></td><td class="ios"><code>phone_verification</code></td></tr>
+          <tr><td class="cc">본인 인증</td><td class="aos"><code>identity_prompt</code></td><td class="ios"><code>identity_verification</code></td></tr>
+          <tr><td class="cc">인증수단 목록</td><td class="aos"><code>auth_type_list</code></td><td class="ios"><code>find_auth_type</code></td></tr>
+          <tr><td class="cc">친구 초대</td><td class="aos"><code>invite_friend</code></td><td class="ios"><code>invitation</code></td></tr>
+          <tr><td class="cc">발견 피드</td><td class="aos"><code>discovery_feed</code></td><td class="ios"><code>discover_feed</code></td></tr>
+          <tr><td class="cc">카테고리 탐색</td><td class="aos"><code>category_browse</code></td><td class="ios"><code>vertical_category_browse</code></td></tr>
+          <tr><td class="cc">공용 이미지 뷰어</td><td class="aos"><code>image_viewer</code></td><td class="ios"><code>medical_cases_viewer</code></td></tr>
+          <tr><td class="cc">찜 목록</td><td class="aos"><code>wishlist</code></td><td class="ios"><code>zzim_list</code></td></tr>
+          <tr><td class="cc">댓글 스레드</td><td class="aos"><code>comment_thread</code></td><td class="ios"><code>community_comment_detail</code></td></tr>
+          <tr><td class="cc">게시글 작성</td><td class="aos"><code>community_post_write</code></td><td class="ios"><code>community_write_post</code></td></tr>
+          <tr><td class="cc">게시글 수정</td><td class="aos"><code>community_post_edit</code></td><td class="ios"><code>community_edit_post</code></td></tr>
+          <tr><td class="cc">게시글 복원 요청</td><td class="aos"><code>post_restore_request</code></td><td class="ios"><code>community_post_restore</code></td></tr>
+          <tr><td class="cc">사용자 프로필</td><td class="aos"><code>user_profile</code></td><td class="ios"><code>community_profile / my_page_profile</code></td></tr>
+          <tr><td class="cc">DM 목록</td><td class="aos"><code>dm_list</code></td><td class="ios"><code>community_dm_list</code></td></tr>
+          <tr><td class="cc">DM 상세</td><td class="aos"><code>dm_detail</code></td><td class="ios"><code>community_dm</code></td></tr>
+          <tr><td class="cc">리뷰 목록</td><td class="aos"><code>product_review_list</code></td><td class="ios"><code>review_list</code></td></tr>
+          <tr><td class="cc">리뷰 작성 메뉴</td><td class="aos"><code>review_write_menu</code></td><td class="ios"><code>review_menu</code></td></tr>
+          <tr><td class="cc">리뷰 작성</td><td class="aos"><code>writing_review</code></td><td class="ios"><code>write_review</code></td></tr>
+          <tr><td class="cc">경과 리뷰 작성/수정</td><td class="aos"><code>add_progress_review · edit_progress_review</code></td><td class="ios"><code>progress_review_write</code></td></tr>
+          <tr><td class="cc">이벤트 인기 리뷰</td><td class="aos"><code>event_popular_review</code></td><td class="ios"><code>featured_reviews</code></td></tr>
+          <tr><td class="cc">AI 트윈(유사 리뷰사진)</td><td class="aos"><code>ai_similar_review_photo</code></td><td class="ios"><code>ai_twin</code></td></tr>
+          <tr><td class="cc">언니팁</td><td class="aos"><code>medical_tip</code></td><td class="ios"><code>unni_tip</code></td></tr>
+          <tr><td class="cc">고민 설문(웹)</td><td class="aos"><code>concern_survey</code></td><td class="ios"><code>concern_questions</code></td></tr>
+          <tr><td class="cc">기획전 상세</td><td class="aos"><code>page_group_detail</code></td><td class="ios"><code>pagegroup_detail</code></td></tr>
+          <tr><td class="cc">이벤트 탭</td><td class="aos"><code>event_tab</code></td><td class="ios"><code>category_event_list</code></td></tr>
+          <tr><td class="cc">강운 TV / 숏폼</td><td class="aos"><code>gangun_tv_list</code></td><td class="ios"><code>exhibition_shortform_full</code></td></tr>
+          <tr><td class="cc">통합 검색(진입)</td><td class="aos"><code>total_search</code></td><td class="ios"><code>search_input</code></td></tr>
+          <tr><td class="cc">상담 채팅</td><td class="aos"><code>chatting_consultation</code></td><td class="ios"><code>consultation_chat</code></td></tr>
+          <tr><td class="cc">상담 요청</td><td class="aos"><code>chatting_consultation_request</code></td><td class="ios"><code>consultation_request</code></td></tr>
+          <tr><td class="cc">방문 예약</td><td class="aos"><code>visit_reservation</code></td><td class="ios"><code>booking</code></td></tr>
+          <tr><td class="cc">방문 한국 일정 문진</td><td class="aos"><code>survey_visit_korea</code></td><td class="ios"><code>visit_survey / visit_korea_schedule</code></td></tr>
+          <tr><td class="cc">예약 채팅(웹)</td><td class="aos"><code>appointment_chat_by_consultation</code></td><td class="ios"><code>appointment_detail</code></td></tr>
+          <tr><td class="cc">포인트 사용가능 예약(JP)</td><td class="aos"><code>jp_use_point</code></td><td class="ios"><code>point_usable_reservations</code></td></tr>
+          <tr><td class="cc">복권/매일 추첨</td><td class="aos"><code>lottery</code></td><td class="ios"><code>daily_point_draw / lottery</code></td></tr>
+          <tr><td class="cc">내 쿠폰</td><td class="aos"><code>my_coupon_list</code></td><td class="ios"><code>my_coupon</code></td></tr>
+          <tr><td class="cc">마케팅 동의</td><td class="aos"><code>put_user_consent</code></td><td class="ios"><code>marketing_consent</code></td></tr>
+          <tr><td class="cc">마이페이지</td><td class="aos"><code>mypage</code></td><td class="ios"><code>my_page_profile</code></td></tr>
+          <tr><td class="cc">설정</td><td class="aos"><code>mypage_setting / settings</code></td><td class="ios"><code>my_page_setting</code></td></tr>
+          <tr><td class="cc">공지 목록</td><td class="aos"><code>notice</code></td><td class="ios"><code>notice_list</code></td></tr>
+          <tr><td class="cc">포토 키오스크</td><td class="aos"><code>photo_kiosk_list</code></td><td class="ios"><code>photo_kiosk</code></td></tr>
+          <tr><td class="cc">약관·정책 웹뷰 (묶음 13)</td><td class="aos"><code>privacy_* · *_policy · service_policy · foreigner_*</code></td><td class="ios"><code>terms_detail / generic_webview</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <footer>
-    <p>출처 — v2 목록 <code>docs/page-list-v2-by-notion.md</code> · 3-way diff <code>docs/page-3way-diff.md</code> · 분류 원천 <code>docs/page-analysis-v2/*.jsonl</code></p>
-    <p>v2는 iOS 동료 노션 텍소노미의 판정축·플로차트·R1~R5를 그대로 적용하되 AOS 전 구현체(Circuit·Fragment·Activity·WebView·Overlay) 신호로 보강해 코드에서 독립 재도출. 역전파(어느 쪽이 옳은지) 판단은 포함하지 않음.</p>
+    <p><b>방법</b> — iOS 텍소노미 판정축·플로차트·R1~R5를 Android 전 구현체(Circuit·Fragment·Activity·WebView·Overlay) 신호로 보강해 코드에서 독립 재도출. 분류 단위는 page(자기완결 목적지) / tab / step / component.</p>
+    <p>역전파(어느 쪽이 옳은지) 판단은 포함하지 않음 — 차이만 정리.</p>
   </footer>
 </div>

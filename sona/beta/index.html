@@ -72,7 +72,7 @@ details[open] summary{margin-bottom:.5em}
 <div class="box">
 <p class="t">시작 전에</p>
 <ul>
-<li><b>Qobuz 나 Tidal 계정</b>이 있으면 좋아요. 없으면 라디오만 들을 수 있어요. 둘 다 한국 공식 서비스가 아니라서 앱 안에서 새로 가입할 수는 없어요.</li>
+<li><b>Qobuz 나 Tidal 계정이 있어야 음악 검색·재생이 돼요.</b> 계정이 없으면 <b>라디오(KBS·MBC·SBS·EBS 등)와 집 NAS 안의 음악만</b> 들을 수 있어요. 둘 다 한국 공식 서비스가 아니라서 앱 안에서 새로 가입할 수는 없어요.</li>
 <li>아이폰·아이패드는 <b>iOS 16 이상</b>, 안드로이드는 <b>9 이상</b>이어야 해요.</li>
 <li>집에 렌더러가 없어도 괜찮아요. 대신 처음 켜고 설정 하나를 꼭 바꿔야 해요 (<a href="#output">처음 켜면 → 2번</a>).</li>
 </ul>
@@ -109,17 +109,16 @@ details[open] summary{margin-bottom:.5em}
 <a class="next" href="#first-run">다음 → 처음 켜면</a>
 
 <h2 id="android">안드로이드에 설치하기</h2>
-<p>구글 플레이가 아니라 <b>App Tester</b>(구글의 테스트 앱 설치 도구)로 받아요. 플레이 밖에서 설치하는 것이라 중간에 경고가 두어 번 떠요. 아래대로 넘기면 돼요.</p>
+<p>구글 플레이가 아니라 <b>링크로 설치 파일을 받아</b> 깔아요. 플레이 밖에서 설치하는 것이라 중간에 경고가 두어 번 떠요. 아래대로 넘기면 돼요. 초대나 가입은 필요 없어요.</p>
 <ol class="steps">
-<li><p>초대 메일을 열고 수락해요. 로그인은 아무 구글 계정이나 돼요. 초대는 <b>30일</b> 안에 받아야 해요.</p>
-<div class="ph"><b>스크린샷 자리</b>Firebase App Distribution 에서 온 초대 메일. 수락 버튼을 누르면 구글 로그인이 떠요.</div></li>
-<li><p>안내에 따라 <b>App Tester</b> 앱을 설치해요.</p>
-<div class="ph"><b>스크린샷 자리</b>App Tester 설치 안내 화면. 설치 버튼이 보여요.</div>
-<div class="signal"><span>✅</span><span>앱 목록에 App Tester 가 생겨요.</span></div></li>
-<li><p><b>"출처를 알 수 없는 앱 설치"</b> 를 허용하라는 창이 뜨면 허용해요. 설치를 진행하는 앱(App Tester 또는 Chrome)마다 한 번만 물어요.</p>
+<li><p>안드로이드 폰에서 아래 버튼을 눌러 설치 파일(<code>sona-release.apk</code>, 약 15MB)을 받아요.</p>
+<p><a class="next" href="https://github.com/lulumeya/lulumeya.github.io/releases/download/sona-android/sona-release.apk">Sona 설치 파일 받기</a></p>
+<div class="ph"><b>스크린샷 자리</b>Chrome 아래쪽에 "파일을 다운로드할까요?" 또는 "다운로드 완료 · 열기" 가 떠요. "이 파일은 기기를 손상시킬 수 있습니다" 류가 뜨면 "다운로드" 를 눌러요.</div></li>
+<li><p>다운로드가 끝나면 <b>열기</b>(또는 알림창의 다운로드 완료)를 눌러요.</p></li>
+<li><p><b>"출처를 알 수 없는 앱 설치"</b> 를 허용하라는 창이 뜨면 <b>설정 → "이 출처 허용" 켜기</b> → 뒤로 가기. 방금 파일을 받은 앱(Chrome 이나 내 파일)에 한 번만 물어요.</p>
 <div class="ph"><b>스크린샷 자리</b>"이 출처의 앱 허용" 스위치가 있는 설정 화면.</div></li>
-<li><p>App Tester 에서 Sona → 다운로드 → 설치.</p>
-<div class="ph"><b>스크린샷 자리</b>App Tester 안의 Sona 와 다운로드 버튼, 이어서 설치 확인 창.</div></li>
+<li><p><b>설치</b>를 눌러요.</p>
+<div class="ph"><b>스크린샷 자리</b>Sona 아이콘과 "이 앱을 설치하시겠습니까?" 확인 창.</div></li>
 <li><p>"안전하지 않은 앱" 같은 <b>Play 프로텍트 경고</b>가 뜨면 <b>세부정보 → 무시하고 설치</b>.</p>
 <div class="box warn"><p class="t">삼성 폰이라면</p><p><span class="path">설정 → 보안 및 개인정보 보호 → 자동 차단(Auto Blocker)</span> 이 켜져 있으면 설치가 막혀요. 잠시 끄고 설치한 뒤 다시 켜도 돼요.</p><p class="muted">여기 적은 경고 문구와 메뉴 이름은 기기마다 조금 다를 수 있어요.</p></div>
 <div class="signal"><span>✅</span><span>앱 목록에 Sona 가 생겨요.</span></div></li>
@@ -191,7 +190,7 @@ details[open] summary{margin-bottom:.5em}
 <dd>고장이 아니에요. 테스트용 빌드는 올린 지 90일이 지나면 열리지 않아요. TestFlight 앱에서 업데이트가 있으면 받고, 없으면 보낸 사람에게 새 버전을 달라고 하세요.</dd>
 
 <dt>업데이트는 어떻게 받아요?</dt>
-<dd>아이폰·아이패드는 자동 업데이트를 켰으면 알아서 들어와요. 안드로이드는 새 버전이 나오면 메일과 App Tester 알림이 와요 — 받아서 설치하면 덮어 깔리고 로그인·설정은 그대로예요. 지우고 다시 깔 필요 없어요.</dd>
+<dd>아이폰·아이패드는 자동 업데이트를 켰으면 알아서 들어와요. 안드로이드는 자동으로 업데이트되지 않아요. 보낸 사람이 새 버전을 알려 주면 <a href="#android">같은 링크</a>에서 다시 받아 설치하세요. 덮어 깔리고 로그인·설정은 그대로예요. 지우고 다시 깔 필요 없어요.</dd>
 
 <dt>문제를 알리고 싶어요</dt>
 <dd>이 넷을 적어 보내 주세요: <b>앱 버전</b>(<span class="path">설정 탭 아래쪽 빌드 정보</span>의 숫자 — 안드로이드는 versionCode, 아이폰은 빌드 번호) · <b>기종</b> · <b>시각</b> · <b>하던 일</b>. 아이폰·아이패드에서는 스크린샷을 찍으면 "베타 피드백 보내기" 가 바로 떠서 그걸로 보내도 돼요.</dd>
